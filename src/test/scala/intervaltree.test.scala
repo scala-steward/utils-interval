@@ -7,6 +7,8 @@ import org.scalatest.prop.Checkers
 import org.scalacheck.Prop.BooleanOperators
 import org.scalacheck.{Arbitrary, Gen}
 
+import spire.std.int._
+
 class IntervalTreeSpec
     extends FunSpec
     with Matchers
@@ -53,7 +55,7 @@ class IntervalTreeSpec
     it("find") {
       check { (a: List[TestInterval], b: TestInterval) =>
         val sorted = a.sortBy(_.from)
-        val tree = IntervalTree.makeTree(sorted)
+        val tree = IntervalTree.makeTree[Int,TestInterval](sorted)
         val result = IntervalTree.lookup(b, tree)
         val resultByFilter = a.filter(_.intersects(b))
         val x = result.toSet == resultByFilter.toSet

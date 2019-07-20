@@ -1,7 +1,9 @@
 val commonsettings = Seq(
-  version := "1.0.0",
+  version := "1.1.0",
   organization := "io.github.pityka",
-  scalaVersion := "2.11.8")
+  scalaVersion := "2.12.8")
+
+commonsettings
 
 lazy val root = crossProject.crossType(CrossType.Pure).in(file(".")).
   settings(commonsettings:_*).
@@ -9,11 +11,11 @@ lazy val root = crossProject.crossType(CrossType.Pure).in(file(".")).
     name:="intervaltree",
     libraryDependencies ++=
         Seq(
+          "org.typelevel" %%% "spire" % "0.17.0-M1",
           "org.scalatest" %%% "scalatest" % "3.0.0" % "test",
-          "org.scalacheck" %%% "scalacheck" % "1.13.2" % "test"
+          "org.scalacheck" %%% "scalacheck" % "1.13.4" % "test"
         )
-      ).
-  settings(reformatOnCompileSettings:_*)
+      )
 
 
 lazy val sharedJVM = root.jvm

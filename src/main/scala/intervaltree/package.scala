@@ -1,7 +1,9 @@
+import spire.algebra.Order
+
 package object intervaltree {
 
-  implicit def ordering[T <: Interval]: Ordering[IntervalTreeElement[T]] =
-    Ordering.by((x: IntervalTreeElement[T]) => x.elem.from)
+  implicit def orderInt[C : Order, T <: GenericInterval[C]]: Order[IntervalTree.IntervalTreeElement[C,T]] =
+    Order.by((x: IntervalTree.IntervalTreeElement[C,T]) => x.elem.from)
 
-  type IntervalTree[T <: Interval] = Tree[IntervalTreeElement[T]]
+  type IntervalTree[C,T <: GenericInterval[C]] = Tree[IntervalTree.IntervalTreeElement[C,T]]
 }
