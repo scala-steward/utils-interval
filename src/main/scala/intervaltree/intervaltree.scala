@@ -42,7 +42,10 @@ case class LongIntervalWithPayLoad[@specialized(Int, Long, Double, Float) T](
 
 object IntervalTree {
 
-  case class IntervalTreeElement[@specialized(Int, Long, Double) C, T <: GenericInterval[C]](
+  case class IntervalTreeElement[
+      @specialized(Int, Long, Double) C,
+      T <: GenericInterval[C]
+  ](
       elem: T,
       max: C
   )
@@ -63,31 +66,50 @@ object IntervalTree {
         }
     }
 
-  def lookup[@specialized(Int, Long, Double) C: Order, Q <: GenericInterval[C], T <: GenericInterval[C]](
+  def lookup[@specialized(Int, Long, Double) C: Order, Q <: GenericInterval[C], T <: GenericInterval[
+    C
+  ]](
       query: Q,
+      tree: IntervalTree[C, T]
+  ): List[T] =
+    if (query.isEmpty) Nil
+    else
+      lookup1(query.from, query.to, tree)
+
+  def lookup1[@specialized(Int, Long, Double) C: Order, T <: GenericInterval[
+    C
+  ]](
+      queryFrom: C,
+      queryTo: C,
       tree: IntervalTree[C, T]
   ): List[T] = {
     val ord = implicitly[Order[C]]
-    if (query.isEmpty) Nil
-    else
-      tree match {
-        case EmptyTree => Nil
-        case NonEmptyTree(IntervalTreeElement(interval, maxTo), left, right) =>
-          if (ord.lt(maxTo, query.from)) Nil
-          else if (ord.gteqv(interval.from, query.to)) lookup(query, left)
-          else {
-            val hit =
-              if (interval.nonEmpty && ord.lt(interval.from, query.to) && ord
-                    .gt(interval.to, query.from))
-                Some(interval)
-              else None
-            hit.toList ::: (lookup(query, left) ::: lookup(query, right))
-          }
-      }
+    tree match {
+      case EmptyTree => Nil
+      case NonEmptyTree(IntervalTreeElement(interval, maxTo), left, right) =>
+        if (ord.lt(maxTo, queryFrom)) Nil
+        else if (ord.gteqv(interval.from, queryTo))
+          lookup1(queryFrom, queryTo, left)
+        else {
+          val hit =
+            if (interval.nonEmpty && ord.lt(interval.from, queryTo) && ord
+                  .gt(interval.to, queryFrom))
+              Some(interval)
+            else None
+          hit.toList ::: (lookup1(queryFrom, queryTo, left) ::: lookup1(
+            queryFrom,
+            queryTo,
+            right
+          ))
+        }
+    }
 
   }
 
-  def intervalForest[@specialized(Int, Long, Double) C: Order, T <: GenericInterval[C]](
+  def intervalForest[
+      @specialized(Int, Long, Double) C: Order,
+      T <: GenericInterval[C]
+  ](
       in: Iterator[(String, T)]
   ): Map[String, IntervalTree[C, T]] = {
 
