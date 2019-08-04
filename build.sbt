@@ -1,7 +1,8 @@
 val commonsettings = Seq(
   version := "1.1.1",
   organization := "io.github.pityka",
-  scalaVersion := "2.12.8")
+  scalaVersion := "2.12.8",
+  publishTo := sonatypePublishTo.value)
 
 commonsettings
 
