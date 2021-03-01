@@ -1,6 +1,6 @@
 package intervaltree
 
-import spire.algebra.Order
+import cats.kernel.Order
 
 trait GenericInterval[@specialized(Int, Long, Double) C] {
   def from: C

@@ -1,6 +1,6 @@
 package intervaltree
 
-import spire.algebra.Order
+import _root_.cats.kernel.Order
 
 sealed trait Tree[+T]
 case object EmptyTree extends Tree[Nothing]
