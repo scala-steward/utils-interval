@@ -1,15 +1,28 @@
-val commonsettings = Seq(
-  version := "1.1.2",
-  organization := "io.github.pityka",
-  scalaVersion := "2.13.5",
-  publishTo := sonatypePublishTo.value
+inThisBuild(
+  List(
+    organization := "io.github.pityka",
+    homepage := Some(url("https://pityka.github.io/utils-interval/")),
+    licenses := List(("MIT", url("https://opensource.org/licenses/MIT"))),
+    developers := List(
+      Developer(
+        "pityka",
+        "Istvan Bartha",
+        "bartha.pityu@gmail.com",
+        url("https://github.com/pityka/utils-interval")
+      )
+    )
+  )
 )
 
-commonsettings
+val commonsettings = Seq(
+  organization := "io.github.pityka",
+  scalaVersion := "2.13.5",
+  crossScalaVersions := Seq("2.12.13", "2.13.5")
+)
 
-lazy val root = crossProject(JSPlatform, JVMPlatform)
+lazy val core = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
-  .in(file("."))
+  .in(file("core"))
   .settings(commonsettings: _*)
   .settings(
     name := "intervaltree",
@@ -21,24 +34,11 @@ lazy val root = crossProject(JSPlatform, JVMPlatform)
       )
   )
 
-pomExtra in Global := {
-  <url>https://pityka.github.io/utils-interval</url>
-  <licenses>
-    <license>
-      <name>MIT</name>
-      <url>https://opensource.org/licenses/MIT</url>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:github.com/pityka/utils-interval</connection>
-    <developerConnection>scm:git:git@github.com:pityka/utils-interval</developerConnection>
-    <url>github.com/pityka/utils-interval</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>pityka</id>
-      <name>Istvan Bartha</name>
-      <url>https://pityka.github.io/utils-interval/</url>
-    </developer>
-  </developers>
-}
+lazy val root = project
+  .in(file("."))
+  .settings(commonsettings)
+  .settings(
+    skip in publish := true,
+    crossScalaVersions := Nil
+  )
+  .aggregate(core.js, core.jvm)
