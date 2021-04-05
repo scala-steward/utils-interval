@@ -66,7 +66,9 @@ object IntervalTree {
         }
     }
 
-  def lookup[@specialized(Int, Long, Double) C: Order, Q <: GenericInterval[C], T <: GenericInterval[
+  def lookup[@specialized(Int, Long, Double) C: Order, Q <: GenericInterval[
+    C
+  ], T <: GenericInterval[
     C
   ]](
       query: Q,
@@ -92,8 +94,10 @@ object IntervalTree {
           lookup1(queryFrom, queryTo, left)
         else {
           val hit =
-            if (interval.nonEmpty && ord.lt(interval.from, queryTo) && ord
-                  .gt(interval.to, queryFrom))
+            if (
+              interval.nonEmpty && ord.lt(interval.from, queryTo) && ord
+                .gt(interval.to, queryFrom)
+            )
               Some(interval)
             else None
           hit.toList ::: (lookup1(queryFrom, queryTo, left) ::: lookup1(
@@ -115,12 +119,11 @@ object IntervalTree {
 
     val trees = scala.collection.mutable.Map[String, List[T]]()
 
-    in.foreach {
-      case (label, interval) =>
-        trees.get(label) match {
-          case None    => trees.update(label, List(interval))
-          case Some(x) => trees.update(label, interval :: x)
-        }
+    in.foreach { case (label, interval) =>
+      trees.get(label) match {
+        case None    => trees.update(label, List(interval))
+        case Some(x) => trees.update(label, interval :: x)
+      }
     }
 
     trees.map(x => x._1 -> IntervalTree.makeTree[C, T](x._2)).toMap

@@ -83,7 +83,10 @@ object Tree {
           case NonEmptyTree(v, _, _) => Some(v)
         }
 
-        (xr, NonEmptyTree(auxFun(x, leftAux, rightAux), lt, rt)) // construct tree
+        (
+          xr,
+          NonEmptyTree(auxFun(x, leftAux, rightAux), lt, rt)
+        ) // construct tree
       }
     }
 
