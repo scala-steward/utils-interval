@@ -15,7 +15,6 @@ inThisBuild(
 )
 
 val commonsettings = Seq(
-  organization := "io.github.pityka",
   scalaVersion := "2.13.5",
   crossScalaVersions := Seq("2.12.13", "2.13.5")
 )
@@ -31,7 +30,10 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
         "org.typelevel" %%% "cats-kernel" % "2.5.0",
         "org.scalatest" %%% "scalatest" % "3.2.7" % "test",
         "org.scalatestplus" %%% "scalacheck-1-15" % "3.2.7.0" % "test"
-      )
+      ),
+    mimaPreviousArtifacts := Set(
+      organization.value %% moduleName.value % "1.1.5"
+    )
   )
 
 lazy val root = project
