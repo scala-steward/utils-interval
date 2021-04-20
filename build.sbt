@@ -28,7 +28,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies ++=
       Seq(
         "org.typelevel" %%% "cats-kernel" % "2.6.0",
-        "org.scalatest" %%% "scalatest" % "3.2.7" % "test",
+        "org.scalatest" %%% "scalatest" % "3.2.8" % "test",
         "org.scalatestplus" %%% "scalacheck-1-15" % "3.2.7.0" % "test"
       ),
     mimaPreviousArtifacts := Set(
