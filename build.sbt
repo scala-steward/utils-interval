@@ -27,7 +27,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
     name := "intervaltree",
     libraryDependencies ++=
       Seq(
-        "org.typelevel" %%% "cats-kernel" % "2.5.0",
+        "org.typelevel" %%% "cats-kernel" % "2.6.0",
         "org.scalatest" %%% "scalatest" % "3.2.7" % "test",
         "org.scalatestplus" %%% "scalacheck-1-15" % "3.2.7.0" % "test"
       ),
