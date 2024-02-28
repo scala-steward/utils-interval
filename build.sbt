@@ -16,7 +16,7 @@ inThisBuild(
 
 val commonsettings = Seq(
   scalaVersion := "2.13.7",
-  crossScalaVersions := Seq("2.12.15", "2.13.7")
+  crossScalaVersions := Seq("2.12.19", "2.13.7")
 )
 
 lazy val core = crossProject(JSPlatform, JVMPlatform)
